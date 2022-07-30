@@ -89,6 +89,12 @@
 ### [68.TreeviewExamples官方案例](Assets/Editor/Examples/Example_68_TreeViewExamples)  
 ### [69.TitleContent](./Assets/Editor/Examples/Example_69_TitleContent)  
 ### [70.ScrollViewWithOdinAttribute](./Assets/Editor/Examples/Example_70_ScrollViewWithOdinAttribute)  
+### [71.UnityDuplicateEvent](./Assets/Editor/Examples/Example_71_UnityDuplicateEvent)  
+### [72.GetLocalIdentifierInFile](./Assets/Editor/Examples/Example_72_GetLocalIdentifierInFile)  
+### [73.SetAppIcon](./Assets/Editor/Examples/Example_73_SetAppIcon)  
+### [74.GUISkin](./Assets/Editor/Examples/Example_74_GUISkin)  
+### [75.FadeGroup](./Assets/Editor/Examples/Example_75_FadeGroup)  
+### [76.RendererExplorer](./Assets/Editor/Examples/Example_76_RendererExplorer)  
 
 ## CX_Example
 ### [2.进度条实现](Assets/Editor/CX_Examples/Example_02_ProgressBar)
