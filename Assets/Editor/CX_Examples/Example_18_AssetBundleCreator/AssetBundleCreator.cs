@@ -45,6 +45,7 @@ namespace CX_Example_18
         private List<Object> _originObjs;
         private ReorderableList _originObjList;
         private bool _buildSingle;
+        private BuildTarget _buildTarget = BuildTarget.Android;
         public string _oneABRName = "mainBundle";
 
         private void OnEnable()
@@ -78,6 +79,7 @@ namespace CX_Example_18
 
         private void OnGUI()
         {
+            _buildTarget = (BuildTarget)EditorGUILayout.EnumPopup("Build Target:", _buildTarget);
             using (new GUILayout.VerticalScope("Box"))
             {
                 _originObjList.DoLayoutList();
@@ -98,7 +100,7 @@ namespace CX_Example_18
 
                 if ( _dependItems != null && _dependItems.Count == _originObjs.Count && GUILayout.Button("Create AssetBundle!"))
                 {
-                    CreateAssetBundle();
+                    CreateAssetBundle(_buildTarget);
                 }
 
                 if (GUILayout.Button("Clear StreamingAsset"))
@@ -114,11 +116,14 @@ namespace CX_Example_18
 
         private Dictionary<string, List<DependItem>> _dependItems;
 
+        private Vector2 _scoll;
+        
         private void ShowDependencies()
         {
             if(_dependItems == null) return;
-            using (new GUILayout.VerticalScope("Box"))
+            using (var scrollView = new GUILayout.ScrollViewScope(_scoll,"Box"))
             {
+                _scoll = scrollView.scrollPosition;
                 GUILayout.Label("Dependencies:");
                 foreach (var pair in _dependItems)
                 {
@@ -156,6 +161,7 @@ namespace CX_Example_18
                 for (int i = 0; i < dep.Length; i++)
                 {
                     if(dep[i] == path) continue;
+                    if(dep[i].EndsWith(".cs")) continue;
                     var item = new DependItem
                     {
                         PackType = PackType.Include,
@@ -261,7 +267,7 @@ namespace CX_Example_18
             return abbList;
         }
 
-        private void CreateAssetBundle()
+        private void CreateAssetBundle(BuildTarget buildTarget)
         {
             var abbList = _buildSingle ? GetSingleAssetBundle() : GetAllAssetBundle();
 
@@ -271,7 +277,7 @@ namespace CX_Example_18
             }
             
             var assetBundleManifest = BuildPipeline.BuildAssetBundles($"{Application.streamingAssetsPath}",
-                abbList.Values.ToArray(), BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
+                abbList.Values.ToArray(), BuildAssetBundleOptions.DisableWriteTypeTree, buildTarget);
             AssetDatabase.Refresh();
             _BundleInfos = new List<BundleInfo>();
             var allBundles = assetBundleManifest.GetAllAssetBundles();

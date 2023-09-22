@@ -25,6 +25,9 @@ namespace Example_13
         {
             _selectMaterial = (Material)EditorGUILayout.ObjectField(_selectMaterial, typeof(Material), false);
             if (_selectMaterial == null) return;
+            SerializedObject o = new SerializedObject(_selectMaterial);
+            SerializedProperty disabledShaderPasses = o.FindProperty("disabledShaderPasses");
+            SerializedProperty tagsMap = o.FindProperty("stringTagMap");
             using (var scroll = new GUILayout.ScrollViewScope(_scrollPos))
             {
                 _scrollPos = scroll.scrollPosition;
@@ -48,6 +51,33 @@ namespace Example_13
                         sb.Append("/");
                 }
                 GUILayout.Label(sb.ToString());
+                
+                //tags map
+                GUILayout.Label("Tags Map:", (GUIStyle)"BoldLabel");
+                for (int i = 0; i < tagsMap.arraySize; i++)
+                {
+                    var pair = tagsMap.GetArrayElementAtIndex(i);
+                    var first = pair.FindPropertyRelative("first").stringValue;
+                    var second = pair.FindPropertyRelative("second").stringValue;
+                    GUILayout.Label($"{first}:{second}");
+                }
+                
+                //pass
+                //var passCount = _selectMaterial.passCount;
+                //GUILayout.Label($"shader passes: {passCount}", (GUIStyle)"BoldLabel");
+                // for (int i = 0; i < passCount; i++)
+                // {
+                //     var passName = _selectMaterial.GetPassName(i);
+                //     var enabled = _selectMaterial.GetShaderPassEnabled(passName);
+                //     GUILayout.Label($"{passName}:{enabled}");
+                // }
+                //pass
+                GUILayout.Label("Disabled Shader Pass:", (GUIStyle)"BoldLabel");
+                for (int i = 0; i < disabledShaderPasses.arraySize; i++)
+                {
+                    var property = disabledShaderPasses.GetArrayElementAtIndex(i);
+                    GUILayout.Label($"{property.stringValue}");
+                }
             }
 
             using (new GUILayout.VerticalScope("Box", GUILayout.Height(100)))

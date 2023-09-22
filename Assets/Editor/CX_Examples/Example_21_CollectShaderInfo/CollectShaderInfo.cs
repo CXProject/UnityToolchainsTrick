@@ -20,13 +20,15 @@ namespace CX_Example_21
         private Shader _shader = null;
         private HashSet<string> _shaderFeatureKeys = new HashSet<string>();
         private HashSet<string> _multiCompileKeys = new HashSet<string>();
+        private HashSet<string> _shaderTags = new HashSet<string>();
         private Vector2 _srollPos;
         private void OnGUI()
         {
             _shader = (Shader)EditorGUILayout.ObjectField(_shader, typeof(Shader), false);
             if (_shader != null && GUILayout.Button("Collect Shader Info"))
             {
-                CollectShaderInfoFunc();
+                CollectShaderkeyword();
+                CollectShaderTags();
             }
 
             using (var scoll = new GUILayout.ScrollViewScope(_srollPos))
@@ -43,10 +45,16 @@ namespace CX_Example_21
                 {
                     GUILayout.Label(key);
                 }
+                GUILayout.Space(10f);
+                GUILayout.Label("Shader Tags:");
+                foreach (var tag in _shaderTags)
+                {
+                    GUILayout.Label(tag);
+                }
             }
         }
 
-        private void CollectShaderInfoFunc()
+        private void CollectShaderkeyword()
         {
             _shaderFeatureKeys.Clear();
             _multiCompileKeys.Clear();
@@ -93,6 +101,31 @@ namespace CX_Example_21
         private string GetProjectUnityTempPath()
         {
             return Path.GetDirectoryName(Application.dataPath) + "/Temp";
+        }
+
+        private void CollectShaderTags()
+        {
+            _shaderTags.Clear();
+            var path = AssetDatabase.GetAssetPath(_shader);
+            if(string.IsNullOrEmpty(path)) return;
+            if(!File.Exists(path)) return;
+            if(Path.GetExtension(path) != ".shader") return;
+
+            var allText = File.ReadAllText(path);
+            allText = Regex.Replace( allText, @"\s", "" );
+            var regextags = new Regex(@"Tags{([^\{\}]+)}");
+            var regextag = new Regex(@"""([^""""=]+)""=");
+            var mc = regextags.Matches(allText);
+            foreach (var match in mc)
+            {
+                var tagmc = regextag.Matches(match.ToString());
+                foreach (var tagMatch in tagmc)
+                {
+                    var tag = tagMatch.ToString();
+                    tag = Regex.Replace(tag, @"[""""=]", "");
+                    _shaderTags.Add(tag);
+                }
+            }
         }
 
     }
