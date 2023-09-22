@@ -8,6 +8,7 @@
 
 ## 博客  
 * [Unity编辑器拓展Wiki开源项目，装得下，世界都是你的-By 烟雨](https://zhuanlan.zhihu.com/p/364250160)  
+* [Unity编辑器扩展小百科](https://zhuanlan.zhihu.com/p/515963907)  
 
 ## OverViewWindow
 本项目提供了一个用于预览所有编辑器拓展样式的EditorWindow，可通过Tools-AllTrickOverView进行打开，使用教程参见[Unity编辑器拓展Wiki开源项目，装得下，世界都是你的-By 烟雨](https://zhuanlan.zhihu.com/p/364250160)
@@ -95,6 +96,9 @@
 ### [74.GUISkin](./Assets/Editor/Examples/Example_74_GUISkin)  
 ### [75.FadeGroup](./Assets/Editor/Examples/Example_75_FadeGroup)  
 ### [76.RendererExplorer](./Assets/Editor/Examples/Example_76_RendererExplorer)  
+### [77.Find In Hierarchy](/Assets/Editor/Examples/Example_77_HierarchyDataBase)  
+### [78.Reference Collector](/Assets/Scripts/Example_78_ReferenceCollector)  
+### [79.Unity 编写通用的窗口编辑器](https://github.com/994935108/Unity-RuntimeEditorWindow)  
 
 ## CX_Example
 ### [2.进度条实现](Assets/Editor/CX_Examples/Example_02_ProgressBar)
